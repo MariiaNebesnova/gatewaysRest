@@ -11,7 +11,8 @@ export class GatewayController extends BaseController<GatewayService> {
     }
 
     initRoutes(): void {
-        this.router.get('/gateways', this.getGateways.bind(this));
+        // this.router.get('/gateways', this.getGateways.bind(this));
+        this.router.get('/gateways', this.getGatewaysWithDevices.bind(this));
         this.router.get('/gateways/:id', this.getGateway.bind(this));
         // this.router.post('/', this.createGateway);
         // this.router.put('/', this.updateGateway);
@@ -20,8 +21,9 @@ export class GatewayController extends BaseController<GatewayService> {
 
     async getGateways (req: Request, res: Response, next: NextFunction) {
         try {
-            const gateways = await this.service.getGateways();
-            res.status(200).json(gateways);
+            const result = await this.service.getGateways();
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "No gateways found");
         } catch (error) {
             next(error);
         }
@@ -31,6 +33,15 @@ export class GatewayController extends BaseController<GatewayService> {
         try {
             const gateway = await this.service.getGateway(req.params.id);
             res.status(200).json(gateway);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getGatewaysWithDevices (req: Request, res: Response, next: NextFunction) {
+        try {
+            const gateways = await this.service.getGatewaysWithDevices();
+            res.status(200).json(gateways);
         } catch (error) {
             next(error);
         }

@@ -11,17 +11,36 @@ export class DeviceController extends BaseController<DeviceService> {
     }
 
     initRoutes(): void {
-        this.router.get('/', this.getDevices.bind(this));
-        // this.router.get('/:id', this.getGateway);
-        // this.router.post('/', this.createGateway);
-        // this.router.put('/', this.updateGateway);
-        // this.router.delete('/:id', this.deleteGateway);
+        this.router.get('/devices', this.getDevices.bind(this));
+        this.router.get('/devicesGateway/:id', this.getDevicesByGatewayId.bind(this));
+        this.router.post('/devices/new', this.createDevice.bind(this));
     }
 
     async getDevices (req: Request, res: Response, next: NextFunction) {
         try {
-            const devices = await this.service.getDevices();
-            res.status(200).json(devices);
+            const result = await this.service.getDevices(req.query.gatewayId);
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "No devices found");
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getDevicesByGatewayId (req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await this.service.getDevicesByGatewayId(req.params.id);
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "Error");
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async createDevice (req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await this.service.createDevice(req.body);
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "Error");
         } catch (error) {
             next(error);
         }

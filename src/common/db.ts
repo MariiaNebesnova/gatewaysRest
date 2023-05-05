@@ -1,26 +1,27 @@
-import mongoose, { Model, Schema, SchemaDefinition } from 'mongoose';
+import mongoose, { Model, Query, Schema, SchemaDefinition } from 'mongoose';
 
 export type DBSchema = Schema;
 export type DBSchemaDefinition = SchemaDefinition;
 export type DBModel<T> = Model<T>;
+export type DBQuery<T> = Query<T, any, any>;
 
 export class DataBase {
-  private db: mongoose.Mongoose;
-  static dataType = mongoose.Schema.Types;
+  static db = mongoose;
+  static schemaTypes = mongoose.Schema.Types;
 
-  constructor() {
-    this.db = mongoose;
-  }
+  // constructor() {
+  //   this.db = mongoose;
+  // }
 
   async connect() {
-    await this.db.connect('mongodb://127.0.0.1:27017/gatewaydb');
+    await DataBase.db.connect('mongodb://127.0.0.1:27017/gatewaydb1');
   }
 
   newSchema(definition: DBSchemaDefinition) {
-    return new this.db.Schema(definition);
+    return new DataBase.db.Schema(definition);
   }
 
   createModel(name: string, schema: DBSchema) {
-    return this.db.model(name, schema);
+    return DataBase.db.model(name, schema);
   }
  }

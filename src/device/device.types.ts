@@ -3,5 +3,4 @@ export interface Device {
     vendor: string;
     date: Date;
     status: boolean;
-    gateway: string;
 }

@@ -30,6 +30,7 @@ export class App {
 
                 this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
                     if (err) {
+                        console.log(err); /// temporary
                         res.status(err.status || 500).send('Something broken');
                     }
                     next();

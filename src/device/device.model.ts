@@ -5,10 +5,6 @@ import { DataBase } from "../common/db";
 export class Device extends BaseModel {
     static modelName = "Device";
     static attributes = {
-        id: {
-            type: String,
-            required: true
-        },
         vendor: {
             type: String,
             required: true
@@ -21,14 +17,11 @@ export class Device extends BaseModel {
             type: Boolean,
             required: true
         },
-        gateway: {
-            type: DataBase.dataType.ObjectId,
-            ref: "Gateway",
-            required: true,
-        }
     };
 
     constructor(db: DataBase) {
         super(db, Device.modelName, Device.attributes);
+
+        this.model.events.on("error", (data: any) => console.log())
     }
 }

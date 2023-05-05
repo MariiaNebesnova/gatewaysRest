@@ -14,8 +14,16 @@ export class DeviceService extends BaseService<DeviceRepository>{
     //     return await this.gatewayRepository.getGateway(id);
     // }
 
-    async getDevices(): Promise<Device[]> {
-        return await this.deviceRepository.getTestDevices();
+    async getDevices(gatewayId: any): Promise<Device[]> {
+        return await this.deviceRepository.getDevices(gatewayId);
+    }
+
+    async getDevicesByGatewayId(id: string): Promise<Device[]> {
+        return await this.deviceRepository.getDevicesByGatewayId(id);
+    }
+
+    async createDevice({device, gatewayId}: { device: Device, gatewayId: string }): Promise<Device> {
+        return await this.deviceRepository.createDevice(device, gatewayId);
     }
 
     // async createGateway(gateway: Gateway): Promise<Gateway> {
