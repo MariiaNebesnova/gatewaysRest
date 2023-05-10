@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseController } from "../common/baseClasses/baseController";
 import { GatewayService } from "./gateway.service";
+import { newGatewaySchema } from "./utils/gatewayValidation";
+import { validateSchema } from "../common/validateSchema.middleware";
 
 export class GatewayController extends BaseController<GatewayService> {
     constructor(
@@ -12,14 +14,14 @@ export class GatewayController extends BaseController<GatewayService> {
 
     initRoutes(): void {
         // this.router.get('/gateways', this.getGateways.bind(this));
-        this.router.get('/gateways', this.getGatewaysWithDevices.bind(this));
+        this.router.get('/gateways', this.getGateways.bind(this));
         this.router.get('/gateways/:id', this.getGateway.bind(this));
-        // this.router.post('/', this.createGateway);
+        this.router.post('/gateways/new', validateSchema(newGatewaySchema), this.createGateway.bind(this));
         // this.router.put('/', this.updateGateway);
         // this.router.delete('/:id', this.deleteGateway);
     }
 
-    async getGateways (req: Request, res: Response, next: NextFunction) {
+    async getGateways(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.service.getGateways();
             if (result) this.successHandler(res, result);
@@ -29,7 +31,7 @@ export class GatewayController extends BaseController<GatewayService> {
         }
     }
 
-    async getGateway (req: Request, res: Response, next: NextFunction) {
+    async getGateway(req: Request, res: Response, next: NextFunction) {
         try {
             const gateway = await this.service.getGateway(req.params.id);
             res.status(200).json(gateway);
@@ -38,10 +40,10 @@ export class GatewayController extends BaseController<GatewayService> {
         }
     }
 
-    async getGatewaysWithDevices (req: Request, res: Response, next: NextFunction) {
+    async createGateway(req: Request, res: Response, next: NextFunction) {
         try {
-            const gateways = await this.service.getGatewaysWithDevices();
-            res.status(200).json(gateways);
+            const gateway = await this.service.createGateway(req.body);
+            res.status(200).json(gateway);
         } catch (error) {
             next(error);
         }

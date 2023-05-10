@@ -9,16 +9,16 @@ export class GatewayRepository {
         this.model = model;
     }
 
-    async getTestGateways(): Promise<Gateway[]> {
-        return await this.model.find().populate('devices');
-    };
-
     async getGatewayById(id: string): Promise<any> {
         return await this.model.findById(id).populate('devices');
     };
 
-    async getGatewaysWithDevices(): Promise<Gateway[]> {
+    async getGateways(): Promise<Gateway[]> {
         return await this.model.find().populate('devices');
+    };
+
+    async createGateway(gateway: Gateway): Promise<Gateway> {
+        return await this.model.create(gateway);
     };
 
 }

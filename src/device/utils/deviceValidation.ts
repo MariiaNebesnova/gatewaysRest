@@ -1,9 +1,12 @@
 import Joi from "joi";
 import { Device } from "../device.types";
 
-
-export const addDeviceSchema: Joi.ObjectSchema<Device> = Joi.object().keys({ 
-    id: Joi.string().required(),
-    name: Joi.string().required(),
-    ipv4: Joi.string().ip().required(),
- });
+export const newDeviceSchema: Joi.ObjectSchema<Device> = Joi.object().keys({
+    device: {
+        uid: Joi.string().required(),
+        vendor: Joi.string().required(),
+        date: Joi.date().required(),
+        status: Joi.boolean().required(),
+    },
+    gatewayId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+});

@@ -15,16 +15,12 @@ export class GatewayService extends BaseService<GatewayRepository>{
     }
 
     async getGateways(): Promise<Gateway[]> {
-        return await this.gatewayRepository.getTestGateways();
+        return await this.gatewayRepository.getGateways();
     }
 
-    async getGatewaysWithDevices(): Promise<Gateway[]> {
-        return await this.gatewayRepository.getGatewaysWithDevices();
+    async createGateway(gateway: Gateway): Promise<Gateway> {
+        return await this.gatewayRepository.createGateway(gateway);
     }
-
-    // async createGateway(gateway: Gateway): Promise<Gateway> {
-    //     return await this.gatewayRepository.createGateway(gateway);
-    // }
 
     // async updateGateway(gateway: Gateway): Promise<Gateway> {
     //     return await this.gatewayRepository.updateGateway(gateway);

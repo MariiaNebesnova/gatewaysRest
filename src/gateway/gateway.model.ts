@@ -5,12 +5,16 @@ import { DataBase } from "../common/db";
 export class Gateway extends BaseModel {
     static modelName = "Gateway";
     static attributes = {
+        serialNumber: {
+            type: DataBase.schemaTypes.String,
+            required: true
+        },
         name: {
-            type: String,
+            type: DataBase.schemaTypes.String,
             required: true
         },
         ipv4: {
-            type: String,
+            type: DataBase.schemaTypes.String,
             required: true
         },
         devices: [{
