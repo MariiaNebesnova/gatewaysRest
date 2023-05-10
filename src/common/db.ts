@@ -1,4 +1,5 @@
 import mongoose, { Model, Query, Schema, SchemaDefinition } from 'mongoose';
+import { Config } from './config';
 
 export type DBSchema = Schema;
 export type DBSchemaDefinition = SchemaDefinition;
@@ -8,10 +9,11 @@ export type DBQuery<T> = Query<T, any, any>;
 export class DataBase {
   static db = mongoose;
   static schemaTypes = mongoose.Schema.Types;
+  databaseUrl: string;
 
-  // constructor() {
-  //   this.db = mongoose;
-  // }
+  constructor(databaseUrl: string) {
+    this.databaseUrl = databaseUrl;
+  }
 
   async connect() {
     await DataBase.db.connect('mongodb://127.0.0.1:27017/gatewaydb1');

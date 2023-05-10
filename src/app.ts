@@ -19,9 +19,10 @@ export class App {
     }
 
     async run() {
-        const dataBase = new DataBase();
+        const dataBase = new DataBase(this.config.databaseUrl);
         return dataBase.connect()
             .then(() => {
+                this.app.use(express.static("build"));
                 this.app.use(bodyParser.json());
                 this.app.use(loggerMiddleware);
                 // runUncaughtExceptionHandler();

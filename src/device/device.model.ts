@@ -5,6 +5,10 @@ import { DataBase } from "../common/db";
 export class Device extends BaseModel {
     static modelName = "Device";
     static attributes = {
+        uid: {
+            type: String,
+            required: true
+        },
         vendor: {
             type: String,
             required: true
