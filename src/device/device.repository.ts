@@ -15,9 +15,12 @@ export class DeviceRepository {
         return await this.model.find(gatewayId && gatewayId.length ? { gatewayId } : {}).exec();
     };
 
-    async getDevicesByGatewayId(id: string): Promise<Device[]> {
-        return await this.model.find({ gateway_id: id });
-    };
+    async ediDevice(device: Partial<Device>): Promise<Device> {
+        const { _id, ...rest } = device;
+        console.log(_id, rest);
+        await this.model.findOneAndUpdate({ _id }, rest).exec();
+        return this.model.findById(_id).exec();
+    }
 
     async createDevice(device: Device, gatewayId: string): Promise<any> {
         // a transaction should be here, but I can't set up a replica set for that

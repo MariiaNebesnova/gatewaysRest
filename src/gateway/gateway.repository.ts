@@ -1,4 +1,3 @@
-import { DBQuery } from "../common/db";
 import { Gateway } from "./gateway.types";
 
 

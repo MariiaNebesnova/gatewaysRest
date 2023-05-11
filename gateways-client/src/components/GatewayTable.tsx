@@ -1,7 +1,8 @@
 import React from 'react';
-import type { TableColumnsType } from 'antd';
+import { TableColumnsType, notification } from 'antd';
 import { Badge, Space, Table, Typography } from 'antd';
 import { Gateway, Device } from '../common/types';
+import { fetchPut } from '../common/fetchHelpers';
 
 const { Link } = Typography;
 
@@ -11,6 +12,29 @@ interface Props {
 }
 
 export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
+
+    const runDeviceHandler = ({ _id }: Device) => () => {
+        fetchPut("/devices/statusOn", { _id })
+        .then((response) => {
+            if (response.ok) {
+                notification.success({ message: "Device runned!" });
+            } else {
+                notification.error({ message: "Something went wrong..." });
+            }
+        });
+    }
+
+    const stopDeviceHandler = ({ _id }: Device) => () => {
+        fetchPut("/devices/statusOff", { _id })
+        .then((response) => {
+            if (response.ok) {
+                notification.success({ message: "Device stopped!" });
+            } else {
+                notification.error({ message: "Something went wrong..." });
+            }
+        });
+    }
+
     const expandedRowRender = (gateway: Gateway) => {
         const columnsDevice: TableColumnsType<Device> = [
             { title: 'UID', dataIndex: 'uid', key: 'uid' },
@@ -26,8 +50,8 @@ export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
                 key: 'action',
                 render: (device) => (
                     <Space size="middle">
-                        {!device.status && <Link>Run</Link>}
-                        {device.status && <Link>Stop</Link>}
+                        {!device.status && <Link onClick={runDeviceHandler(device)}>Run</Link>}
+                        {device.status && <Link onClick={stopDeviceHandler(device)}>Stop</Link>}
                         <Link type="danger">Remove</Link>
                     </Space>
                 ),

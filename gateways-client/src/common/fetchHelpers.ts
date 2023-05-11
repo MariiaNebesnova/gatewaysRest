@@ -12,3 +12,11 @@ export const fetchGet = async (url: string) => {
         headers: { 'Content-Type': 'application/json' },
     });
 };
+
+export const fetchPut = async (url: string, body: any) => {
+    return await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+    });
+};

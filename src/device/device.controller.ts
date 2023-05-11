@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { BaseController } from "../common/baseClasses/baseController";
 import { DeviceService } from "./device.service";
 import { validateSchema } from "../common/validateSchema.middleware";
-import { newDeviceSchema } from "./utils/deviceValidation";
+import { newDeviceSchema, switchStatusSchema } from "./utils/deviceValidation";
 import { methodErrorLogger } from "../common/logger.middleware";
 
 export class DeviceController extends BaseController<DeviceService> {
@@ -15,15 +15,23 @@ export class DeviceController extends BaseController<DeviceService> {
 
     initRoutes(): void {
         this.router.get('/devices', this.getDevices.bind(this));
-        this.router.get(
-            '/devicesGateway/:id',
-            this.getDevicesByGatewayId.bind(this)
-        );
         this.router.post(
             '/devices/new',
             validateSchema(newDeviceSchema),
             this.createDevice.bind(this),
             methodErrorLogger("createDevice")
+        );
+        this.router.put(
+            '/devices/statusOn',
+            validateSchema(switchStatusSchema),
+            this.deviceStatusOn.bind(this),
+            methodErrorLogger("deviceStatusOn")
+        );
+        this.router.put(
+            '/devices/statusOff',
+            validateSchema(switchStatusSchema),
+            this.deviceStatusOff.bind(this),
+            methodErrorLogger("deviceStatusOff")
         );
     }
 
@@ -37,9 +45,10 @@ export class DeviceController extends BaseController<DeviceService> {
         }
     }
 
-    async getDevicesByGatewayId(req: Request, res: Response, next: NextFunction) {
+    async createDevice(req: Request, res: Response, next: NextFunction) {
         try {
-            const result = await this.service.getDevicesByGatewayId(req.params.id);
+            const result = await this.service.createDevice(req.body);
+            console.log(result);
             if (result) this.successHandler(res, result);
             else this.errorHandler(res, "Error");
         } catch (error) {
@@ -47,10 +56,20 @@ export class DeviceController extends BaseController<DeviceService> {
         }
     }
 
-    async createDevice(req: Request, res: Response, next: NextFunction) {
+    async deviceStatusOn(req: Request, res: Response, next: NextFunction) {
         try {
-            const result = await this.service.createDevice(req.body);
+            const result = await this.service.deviceStatusOn(req.body);
             console.log(result);
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "Error");
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deviceStatusOff(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await this.service.deviceStatusOff(req.body);
             if (result) this.successHandler(res, result);
             else this.errorHandler(res, "Error");
         } catch (error) {

@@ -6,6 +6,7 @@ export interface Gateway {
 }
 
 export interface Device {
+    _id: string;
     uid: string;
     vendor: string;
     date: string;
