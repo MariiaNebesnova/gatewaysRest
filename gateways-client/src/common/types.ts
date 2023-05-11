@@ -1,4 +1,5 @@
 export interface Gateway {
+    _id: string;
     name: string;
     serialNumber: string;
     ipv4: string;

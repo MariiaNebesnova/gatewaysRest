@@ -25,4 +25,8 @@ export class DeviceService extends BaseService<DeviceRepository>{
     async deviceStatusOff({_id}: {_id: string}): Promise<Device> {
         return await this.deviceRepository.ediDevice({ _id, status: false });
     }
+
+    async removeDevice({deviceId, gatewayId}: {deviceId: string, gatewayId: string}): Promise<any> {
+        return await this.deviceRepository.removeDevice(deviceId, gatewayId);
+    }
 }

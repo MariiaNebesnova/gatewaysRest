@@ -19,5 +19,4 @@ export class GatewayRepository {
     async createGateway(gateway: Gateway): Promise<Gateway> {
         return await this.model.create(gateway);
     };
-
 }

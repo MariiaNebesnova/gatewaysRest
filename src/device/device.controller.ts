@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { BaseController } from "../common/baseClasses/baseController";
 import { DeviceService } from "./device.service";
 import { validateSchema } from "../common/validateSchema.middleware";
-import { newDeviceSchema, switchStatusSchema } from "./utils/deviceValidation";
+import { newDeviceSchema, removeDeviceSchema, switchStatusSchema } from "./utils/deviceValidation";
 import { methodErrorLogger } from "../common/logger.middleware";
 
 export class DeviceController extends BaseController<DeviceService> {
@@ -20,6 +20,12 @@ export class DeviceController extends BaseController<DeviceService> {
             validateSchema(newDeviceSchema),
             this.createDevice.bind(this),
             methodErrorLogger("createDevice")
+        );
+        this.router.post( // because I need body
+            '/devices/remove',
+            validateSchema(removeDeviceSchema),
+            this.removeDevice.bind(this),
+            methodErrorLogger("removeDevice")
         );
         this.router.put(
             '/devices/statusOn',
@@ -49,6 +55,16 @@ export class DeviceController extends BaseController<DeviceService> {
         try {
             const result = await this.service.createDevice(req.body);
             console.log(result);
+            if (result) this.successHandler(res, result);
+            else this.errorHandler(res, "Error");
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async removeDevice(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result = await this.service.removeDevice(req.body);
             if (result) this.successHandler(res, result);
             else this.errorHandler(res, "Error");
         } catch (error) {

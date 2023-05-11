@@ -2,7 +2,7 @@ import React from 'react';
 import { TableColumnsType, notification } from 'antd';
 import { Badge, Space, Table, Typography } from 'antd';
 import { Gateway, Device } from '../common/types';
-import { fetchPut } from '../common/fetchHelpers';
+import { fetchPost, fetchPut } from '../common/fetchHelpers';
 
 const { Link } = Typography;
 
@@ -35,6 +35,17 @@ export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
         });
     }
 
+    const removeDeviceHandler = (deviceId: string, gatewayId: string) => () => {
+        fetchPost("/devices/remove", { deviceId, gatewayId })
+        .then((response) => {
+            if (response.ok) {
+                notification.success({ message: "Device removed!" });
+            } else {
+                notification.error({ message: "Something went wrong..." });
+            }
+        });
+    }
+
     const expandedRowRender = (gateway: Gateway) => {
         const columnsDevice: TableColumnsType<Device> = [
             { title: 'UID', dataIndex: 'uid', key: 'uid' },
@@ -52,7 +63,7 @@ export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
                     <Space size="middle">
                         {!device.status && <Link onClick={runDeviceHandler(device)}>Run</Link>}
                         {device.status && <Link onClick={stopDeviceHandler(device)}>Stop</Link>}
-                        <Link type="danger">Remove</Link>
+                        <Link type="danger" onClick={removeDeviceHandler(device._id, gateway._id)}>Remove</Link>
                     </Space>
                 ),
             },
