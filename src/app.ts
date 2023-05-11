@@ -3,10 +3,9 @@ import bodyParser from "body-parser";
 import { Config } from "./common/config";
 import { DataBase } from "./common/db";
 import { bindRoutes } from "./common/bindRoutes";
-import { loggerMiddleware } from "./common/logger.middleware";
-import { errorLogger } from "express-winston";
+import { loggerMiddleware, errorLogger } from "./common/logger.middleware";
+import { runUncaughtExceptionHandler } from "./common/uncaughtExceptionHandler";
 
-// import { runUncaughtExceptionHandler } from "./common/uncaughtExceptionHandler";
 // import { errorLogger, loggerMiddleware } from "./common/logger.middleware";
 
 export class App {
@@ -22,10 +21,10 @@ export class App {
         const dataBase = new DataBase(this.config.databaseUrl);
         return dataBase.connect()
             .then(() => {
-                this.app.use(express.static("build"));
                 this.app.use(bodyParser.json());
+                this.app.use(express.static("build"));
                 this.app.use(loggerMiddleware);
-                // runUncaughtExceptionHandler();
+                runUncaughtExceptionHandler();
 
                 this.app.use(bindRoutes(dataBase));
 

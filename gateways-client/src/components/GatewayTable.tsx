@@ -1,16 +1,16 @@
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
 import type { TableColumnsType } from 'antd';
-import { Badge, Dropdown, Space, Table, Typography } from 'antd';
+import { Badge, Space, Table, Typography } from 'antd';
 import { Gateway, Device } from '../common/types';
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 interface Props {
     gateways?: Gateway[];
+    openDeviceForm: (gatewayId: string) => void;
 }
 
-export const GatewayTable: React.FC<Props> = ({ gateways }) => {
+export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
     const expandedRowRender = (gateway: Gateway) => {
         const columnsDevice: TableColumnsType<Device> = [
             { title: 'UID', dataIndex: 'uid', key: 'uid' },
@@ -47,7 +47,7 @@ export const GatewayTable: React.FC<Props> = ({ gateways }) => {
             key: 'operation',
             render: (gateway) => (
                 <Space>
-                    <Link>Add device</Link>
+                    <Link onClick={() => openDeviceForm(gateway._id)}>Add device</Link>
                     <Link type="danger">Remove Gateway</Link>
                 </Space>
             )
