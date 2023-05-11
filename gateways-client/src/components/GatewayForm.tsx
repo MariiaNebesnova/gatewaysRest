@@ -2,6 +2,7 @@ import React from "react";
 import { ModalForm } from "../common/ModalForm";
 import { Form, Input, notification } from "antd";
 import { fetchPost } from "../common/fetchHelpers";
+import { ADD_GATEWAY } from "../app/state";
 
 interface Props {
     isModalOpen: boolean,
@@ -21,7 +22,7 @@ export const GatewayForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, disp
                     .then(async (response) => {
                         if (response.ok) {
                             const gateway = await response.json();
-                            dispatch({ type: 'ADD_GATEWAY', payload: gateway });
+                            dispatch({ type: ADD_GATEWAY, payload: gateway });
                             notification.success({ message: 'Gateway saved!' });
                             setIsModalOpen(false);
                             form.resetFields();

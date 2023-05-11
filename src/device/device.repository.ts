@@ -28,8 +28,8 @@ export class DeviceRepository {
             const gateway = await this.gatewayRepository.getGatewayById(gatewayId);
             if (gateway.devices.length >= 10) throw new Error("A gateway can't have more than 10 devices");
 
-            const newDevice = await this.model.create([device]);
-            gateway.devices.push(newDevice[0]._id);
+            const newDevice = await this.model.create(device);
+            gateway.devices.push(newDevice._id);
             await gateway.save();
             return newDevice;
         } catch (error) {

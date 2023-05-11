@@ -19,12 +19,12 @@ export const DeviceForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, gatew
             .validateFields()
             .then((values) => {
                 notification.info({ message: 'Saving device...' });
-                fetchPost('/devices/new', { device: { ...values }, gatewayId })
-                    .then((response) => {
+                fetchPost('/devices/new', { device: { ...values, status: !!values.status }, gatewayId })
+                    .then(async (response) => {
                         if (response.ok) {
-                            const device = response.json();
+                            const device = await response.json();
                             dispatch({ type: ADD_DEVICE, payload: { device, gatewayId } });
-                            notification.info({ message: 'Device saved!' });
+                            notification.success({ message: 'Device saved!' });
                             setIsModalOpen(false);
                             form.resetFields();
                         } else {
