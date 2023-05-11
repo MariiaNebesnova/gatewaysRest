@@ -22,11 +22,7 @@ export class GatewayService extends BaseService<GatewayRepository>{
         return await this.gatewayRepository.createGateway(gateway);
     }
 
-    // async updateGateway(gateway: Gateway): Promise<Gateway> {
-    //     return await this.gatewayRepository.updateGateway(gateway);
-    // }
-
-    // async deleteGateway(id: string): Promise<void> {
-    //     return await this.gatewayRepository.deleteGateway(id);
-    // }
+    async removeGateway(id: string): Promise<any> {
+        return await this.gatewayRepository.removeGateway(id);
+    }
 }

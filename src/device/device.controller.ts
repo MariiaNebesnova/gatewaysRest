@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseController } from "../common/baseClasses/baseController";
 import { DeviceService } from "./device.service";
-import { validateSchema } from "../common/validateSchema.middleware";
+import { validateBody } from "../common/validateSchema.middleware";
 import { newDeviceSchema, removeDeviceSchema, switchStatusSchema } from "./utils/deviceValidation";
 import { methodErrorLogger } from "../common/logger.middleware";
 
@@ -17,25 +17,25 @@ export class DeviceController extends BaseController<DeviceService> {
         this.router.get('/devices', this.getDevices.bind(this));
         this.router.post(
             '/devices/new',
-            validateSchema(newDeviceSchema),
+            validateBody(newDeviceSchema),
             this.createDevice.bind(this),
             methodErrorLogger("createDevice")
         );
         this.router.post( // because I need body
             '/devices/remove',
-            validateSchema(removeDeviceSchema),
+            validateBody(removeDeviceSchema),
             this.removeDevice.bind(this),
             methodErrorLogger("removeDevice")
         );
         this.router.put(
             '/devices/statusOn',
-            validateSchema(switchStatusSchema),
+            validateBody(switchStatusSchema),
             this.deviceStatusOn.bind(this),
             methodErrorLogger("deviceStatusOn")
         );
         this.router.put(
             '/devices/statusOff',
-            validateSchema(switchStatusSchema),
+            validateBody(switchStatusSchema),
             this.deviceStatusOff.bind(this),
             methodErrorLogger("deviceStatusOff")
         );

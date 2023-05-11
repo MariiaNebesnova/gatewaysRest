@@ -7,3 +7,7 @@ export const newGatewaySchema: Joi.ObjectSchema<Gateway> = Joi.object().keys({
     name: Joi.string().required(),
     ipv4: Joi.string().ip().required(),
  });
+
+ export const removeGatewaySchema: Joi.ObjectSchema = Joi.object().keys({
+    id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+});

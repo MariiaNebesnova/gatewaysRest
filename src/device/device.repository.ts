@@ -38,15 +38,17 @@ export class DeviceRepository {
 
     };
 
-    async removeDevice(deviceId: string, gatewayId: string): Promise<any> {
+    async removeDevice(deviceId: string, gatewayId?: string): Promise<any> {
         // a transaction should be here, but I can't set up a replica set for that
         console.log(deviceId, gatewayId);
         try {
             await this.model.findByIdAndDelete(deviceId);
+            
+            if (!gatewayId) return "device removed";
             const gateway = await this.gatewayRepository.getGatewayById(gatewayId);
             gateway.devices = gateway.devices.filter((id: string) => id !== deviceId);
             await gateway.save();
-            return "device removed";
+            return "device deleted and removed from gateway";
         } catch (error) {
             throw error;
         }

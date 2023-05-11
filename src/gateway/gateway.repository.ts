@@ -19,4 +19,14 @@ export class GatewayRepository {
     async createGateway(gateway: Gateway): Promise<Gateway> {
         return await this.model.create(gateway);
     };
+
+    async removeGateway(id: string): Promise<any> {
+        const gateway = await this.model.findByIdAndDelete(id);
+
+        gateway.devices.forEach(async (deviceId: string) => {
+            await this.model.db.model('Device').findByIdAndDelete(deviceId);
+        });
+
+        return "gateway removed";
+    };
 }

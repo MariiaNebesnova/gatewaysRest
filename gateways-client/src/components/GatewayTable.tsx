@@ -2,7 +2,7 @@ import React from 'react';
 import { TableColumnsType, notification } from 'antd';
 import { Badge, Space, Table, Typography } from 'antd';
 import { Gateway, Device } from '../common/types';
-import { fetchPost, fetchPut } from '../common/fetchHelpers';
+import { fetchDelete, fetchPost, fetchPut } from '../common/fetchHelpers';
 
 const { Link } = Typography;
 
@@ -14,36 +14,51 @@ interface Props {
 export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
 
     const runDeviceHandler = ({ _id }: Device) => () => {
+        notification.info({ message: "Running device..." });
         fetchPut("/devices/statusOn", { _id })
-        .then((response) => {
-            if (response.ok) {
-                notification.success({ message: "Device runned!" });
-            } else {
-                notification.error({ message: "Something went wrong..." });
-            }
-        });
+            .then((response) => {
+                if (response.ok) {
+                    notification.success({ message: "Device runned!" });
+                } else {
+                    notification.error({ message: "Something went wrong..." });
+                }
+            });
     }
 
     const stopDeviceHandler = ({ _id }: Device) => () => {
+        notification.info({ message: "Stopping device..." });
         fetchPut("/devices/statusOff", { _id })
-        .then((response) => {
-            if (response.ok) {
-                notification.success({ message: "Device stopped!" });
-            } else {
-                notification.error({ message: "Something went wrong..." });
-            }
-        });
+            .then((response) => {
+                if (response.ok) {
+                    notification.success({ message: "Device stopped!" });
+                } else {
+                    notification.error({ message: "Something went wrong..." });
+                }
+            });
     }
 
     const removeDeviceHandler = (deviceId: string, gatewayId: string) => () => {
+        notification.info({ message: "Removing device..." });
         fetchPost("/devices/remove", { deviceId, gatewayId })
-        .then((response) => {
-            if (response.ok) {
-                notification.success({ message: "Device removed!" });
-            } else {
-                notification.error({ message: "Something went wrong..." });
-            }
-        });
+            .then((response) => {
+                if (response.ok) {
+                    notification.success({ message: "Device removed!" });
+                } else {
+                    notification.error({ message: "Something went wrong..." });
+                }
+            });
+    }
+
+    const removeGatewayHandler = (gatewayId: string) => () => {
+        notification.info({ message: "Removing gateway..." });
+        fetchDelete("/gateways/remove", gatewayId)
+            .then((response) => {
+                if (response.ok) {
+                    notification.success({ message: "Gateway removed!" });
+                } else {
+                    notification.error({ message: "Something went wrong..." });
+                }
+            });
     }
 
     const expandedRowRender = (gateway: Gateway) => {
@@ -83,7 +98,7 @@ export const GatewayTable: React.FC<Props> = ({ gateways, openDeviceForm }) => {
             render: (gateway) => (
                 <Space>
                     <Link onClick={() => openDeviceForm(gateway._id)}>Add device</Link>
-                    <Link type="danger">Remove Gateway</Link>
+                    <Link type="danger" onClick={removeGatewayHandler(gateway._id)}>Remove Gateway</Link>
                 </Space>
             )
         },

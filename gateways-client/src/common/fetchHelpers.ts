@@ -21,8 +21,8 @@ export const fetchPut = async (url: string, body: any) => {
     });
 };
 
-export const fetchDelete = async (url: string) => {
-    return await fetch(url, {
+export const fetchDelete = async (url: string, param?: string) => {
+    return await fetch(`${url}/${param}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     });
