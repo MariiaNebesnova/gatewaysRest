@@ -6,9 +6,10 @@ import { fetchPost } from "../common/fetchHelpers";
 interface Props {
     isModalOpen: boolean,
     setIsModalOpen: (val: boolean) => void,
+    dispatch: (action: any) => void,
 }
 
-export const GatewayForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen }) => {
+export const GatewayForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, dispatch }) => {
     const [form] = Form.useForm();
 
     const handleOk = () => {
@@ -17,8 +18,10 @@ export const GatewayForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen }) =>
             .then((values) => {
                 notification.info({ message: 'Saving gateway...' });
                 fetchPost('/gateways/new', values)
-                    .then((response) => {
+                    .then(async (response) => {
                         if (response.ok) {
+                            const gateway = await response.json();
+                            dispatch({ type: 'ADD_GATEWAY', payload: gateway });
                             notification.success({ message: 'Gateway saved!' });
                             setIsModalOpen(false);
                             form.resetFields();

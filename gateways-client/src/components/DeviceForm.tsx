@@ -2,14 +2,16 @@ import React from "react";
 import { ModalForm } from "../common/ModalForm";
 import { DatePicker, Form, Input, Switch, notification } from "antd";
 import { fetchPost } from "../common/fetchHelpers";
+import { ADD_DEVICE } from "../app/state";
 
 interface Props {
     isModalOpen: boolean,
     setIsModalOpen: (val: boolean) => void,
     gatewayId: string,
+    dispatch: (action: any) => void,
 }
 
-export const DeviceForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, gatewayId }) => {
+export const DeviceForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, gatewayId, dispatch }) => {
     const [form] = Form.useForm();
 
     const handleOk = () => {
@@ -20,6 +22,8 @@ export const DeviceForm: React.FC<Props> = ({ isModalOpen, setIsModalOpen, gatew
                 fetchPost('/devices/new', { device: { ...values }, gatewayId })
                     .then((response) => {
                         if (response.ok) {
+                            const device = response.json();
+                            dispatch({ type: ADD_DEVICE, payload: { device, gatewayId } });
                             notification.info({ message: 'Device saved!' });
                             setIsModalOpen(false);
                             form.resetFields();
