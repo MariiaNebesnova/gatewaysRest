@@ -1,8 +1,6 @@
-const dbName = "gatewaydb1";
+const dbName = "gateways_nebesnova";
 const gatewaysName = "gateways";
 const devicesName = "devices";
-
-const db = conn.getDB(dbName);
 
 const gatewaysCollection = db.getCollection(gatewaysName);
 const devicesCollection = db.getCollection(devicesName);
