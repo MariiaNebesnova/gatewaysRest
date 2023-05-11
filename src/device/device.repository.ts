@@ -17,7 +17,6 @@ export class DeviceRepository {
 
     async ediDevice(device: Partial<Device>): Promise<Device> {
         const { _id, ...rest } = device;
-        console.log(_id, rest);
         await this.model.findOneAndUpdate({ _id }, rest).exec();
         return this.model.findById(_id).exec();
     }
@@ -40,7 +39,6 @@ export class DeviceRepository {
 
     async removeDevice(deviceId: string, gatewayId?: string): Promise<any> {
         // a transaction should be here, but I can't set up a replica set for that
-        console.log(deviceId, gatewayId);
         try {
             await this.model.findByIdAndDelete(deviceId);
             

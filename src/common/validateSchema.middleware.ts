@@ -12,8 +12,6 @@ export const validateBody = (schema: Joi.Schema) => (req: Request, res: Response
 }
 
 export const validateParams = (schema: Joi.Schema) => (req: Request, res: Response, next: NextFunction) => {
-    console.log("______validateParams______");
-    console.log(req.params);
     const { error } = schema.validate(req.params, {
         abortEarly: false,
         allowUnknown: false,

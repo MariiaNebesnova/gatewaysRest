@@ -1,6 +1,6 @@
 import { notification } from "antd";
-import { fetchDelete, fetchPost, fetchPut } from "../../common/fetchHelpers";
-import { REMOVE_DEVICE, REMOVE_GATEWAY, RUN_DEVICE, STOP_DEVICE } from "../../app/state";
+import { fetchDelete, fetchPost, fetchPut } from "../common/fetchHelpers";
+import { REMOVE_DEVICE, REMOVE_GATEWAY, RUN_DEVICE, STOP_DEVICE } from "../app/state";
 
 export const runDeviceHandler = (deviceId: string, gatewayId: string, dispatch: (action: any) => void) => () => {
     notification.info({ message: "Running device..." });

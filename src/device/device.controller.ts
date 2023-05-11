@@ -54,7 +54,6 @@ export class DeviceController extends BaseController<DeviceService> {
     async createDevice(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.service.createDevice(req.body);
-            console.log(result);
             if (result) this.successHandler(res, result);
             else this.errorHandler(res, "Error");
         } catch (error) {
@@ -75,7 +74,6 @@ export class DeviceController extends BaseController<DeviceService> {
     async deviceStatusOn(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.service.deviceStatusOn(req.body);
-            console.log(result);
             if (result) this.successHandler(res, result);
             else this.errorHandler(res, "Error");
         } catch (error) {

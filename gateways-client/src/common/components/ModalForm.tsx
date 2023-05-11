@@ -1,6 +1,6 @@
 import { Form, FormProps, Modal, ModalProps } from "antd";
 import { FormInstance } from "antd/es/form/Form";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 
 interface AppModalProps extends ModalProps {
   setIsModalOpen: (value: boolean) => void;

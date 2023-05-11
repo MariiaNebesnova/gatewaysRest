@@ -2,7 +2,7 @@ import React from 'react';
 import { TableColumnsType } from 'antd';
 import { Badge, Space, Table, Typography } from 'antd';
 import { Gateway, Device } from '../common/types';
-import { removeDeviceHandler, removeGatewayHandler, runDeviceHandler, stopDeviceHandler } from './utils/gatewayTable.utils';
+import { removeDeviceHandler, removeGatewayHandler, runDeviceHandler, stopDeviceHandler } from './gatewayTable.utils';
 
 const { Link } = Typography;
 

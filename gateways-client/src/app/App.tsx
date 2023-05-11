@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
-import { GatewayTable } from '../components/GatewayTable';
+import { GatewayTable } from '../gateways/GatewayTable';
 import { Button, Row, Typography } from 'antd';
-import { GatewayForm } from '../components/GatewayForm';
-import { DeviceForm } from '../components/DeviceForm';
+import { GatewayForm } from '../gateways/GatewayForm';
+import { DeviceForm } from '../devices/DeviceForm';
 import { fetchGet } from '../common/fetchHelpers';
 import { ADD_GATEWAYS, initialAppState, reducer } from './state';
 
