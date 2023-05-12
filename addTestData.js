@@ -1,4 +1,3 @@
-const dbName = "gateways_nebesnova";
 const gatewaysName = "gateways";
 const devicesName = "devices";
 
