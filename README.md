@@ -15,7 +15,7 @@ a petproject to play with ExpressJS
 Create a new MongoDB. using mongo shell, connect to your data base and copy-paste script from `https://github.com/MariiaNebesnova/gatewaysRest/blob/main/addTestData.js` - to add test data.
 
 #### To run server:
-* clone this repo to your machine
+* clone this repo or download source code to your local machine
 * add `.env` file according to `.env.example`
 * run `npm start` from the root directory
 
